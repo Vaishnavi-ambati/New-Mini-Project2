@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html xmlns:th=http://www.thymeleaf.org xmlns:sec=http://www.thymeleaf.org/extras/spring-security
+	xmlns:shiro=http://www.pollix.at/thymeleaf/shiro>
+<head>
+<meta charset="ISO-8859-1">
+<title>Home</title>
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+</head>
+<body>
+<h1 class="display-4">Reports Generation</h1>
+<br>
+<form th:action="@{/}" th:object="${reportAttr}" method="POST">
+	<div class="row g-3">
+		<div class="col-md-3">
+			<label for="validationCustom04" class="form-label">Plan Name</label>
+			<select class="form-select" th:field="*{PLAN_NAME}">
+			    <option value="0">Select Plan Name</option>
+			    <option th:each="upn : ${uniquePN}" th:value="${upn}" th:text="${upn}"></option>
+		    </select>
+		</div>
+		<div class="col-md-3">
+			<label for="validationCustom04" class="form-label">Plan Status</label>
+			<select class="form-select" aria-label="plan-status" th:field="*{PLAN_STATUS}">
+			  <option value="0" selected>Select Plan Status</option>
+			  <option th:each="ups : ${uniquePS}" th:value="${ups}" th:text="${ups}"></option>
+			</select>
+		</div>
+		<div class="col-md-3">
+			<label for="validationCustom04" class="form-label">Gender</label>
+			<select class="form-select" aria-label="gender" th:field="*{GENDER}">
+			  <option value="0" selected>Select</option>
+			  <option value="male">Male</option>
+			  <option value="female">Female</option>
+			</select>
+		</div>
+		<div class="col-md-3">
+			<label> Start Date </label>
+			<input type="date" name="startDate" class="form-control" th:field="*{PLAN_START_DATE}" />
+		</div>
+		<div class="col-md-3">
+			<label> End Date </label>
+			<input type="date" name="endDate" class="form-control" th:field="*{PLAN_END_DATE}"/>
+		</div>
+	</div>
+	<br>
+	<button type="submit" class="btn btn-primary">Submit</button>
+</form>
+
+<br>
+<table class="table" th:object="${reportOutputAttr}">
+  <thead>
+    <tr>
+      <th scope="col">#</th>
+      <th scope="col">Name</th>
+      <th scope="col">Email</th>
+      <th scope="col">Mobile</th>
+      <th scope="col">Gender</th>
+      <th scope="col">SSN</th>
+      <th scope="col">Plan Name</th>
+      <th scope="col">Plan Status</th>
+    </tr>
+  </thead>
+	<tbody>
+		<tr th:each = "r: ${reportOutputAttr}">
+			<td th:text = "${r.CITIZEN_ID}"></td>
+			<td th:text = "${r.NAME}"></td>
+			<td th:text = "${r.EMAIL}"></td>
+			<td th:text = "${r.PHNO}"></td>
+			<td th:text = "${r.GENDER}"></td>
+			<td th:text = "${r.SSN}"></td>
+			<td th:text = "${r.PLAN_NAME}"></td>
+			<td th:text = "${r.PLAN_STATUS}"></td>
+		</tr>
+	</tbody>
+</table>
+<br>
+<a th:href="@{/pdf}" class="btn btn-primary">Download PDF</a>
+<br>
+<br>
+<a th:href="@{/excel}" class="btn btn-primary">Download Excel</a>
+<br>
+</body>
+</html>
